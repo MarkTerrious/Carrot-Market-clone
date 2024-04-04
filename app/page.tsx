@@ -1,63 +1,55 @@
 const style = {
-  main: `bg-gray-100 h-screen flex  
-          items-center justify-center p-5 dark:bg-gray-700`,
+  main: `
+          bg-gray-100 h-screen flex  
+          items-center justify-center p-5 dark:bg-gray-700
+          sm:bg-green-100  
+          md:bg-red-100
+          xl:bg-slate-200
+          2xl:bg-neutral-200
+          `,
   box:{
-    global:`bg-white shadow-md p-5 rounded-3xl w-full
-            max-w-screen-sm dark:bg-gray-500`,
-    top: `flex justify-between items-center`,
-    topTxtLayout: `flex flex-col`,
-    topTransit: `"text-gray-600 font-semibold -mb-1 dark:text-gray-200`,
-    topCoolBlue: `text-4xl font-semibold dark:text-gray-100`,
-    topCircle: `size-12 rounded-full bg-orange-400`,
-
-    middle: `my-2 flex items-center gap-2`,
-    today: `bg-green-400 text-white 
-            uppercase px-2.5 py-1.5 text-xs font-medium rounded-full
-            hover:bg-green-600 hover:scale-120 hover:duration-300`,
-    time: `dark:text-gray-100`,
-    progressBar: `relative mb-5`,
-    whitePgrsBar: `bg-gray-200 absolute rounded-full w-full h-2`,
-    greenPgrsBar: `bg-green-400 absolute rounded-full w-2/3 h-2`,
-    textWidget: `flex justify-between text-gray-600 dark:text-black`,
-    textDelivered: `text-gray-400 dark:text-gray-200 `,
+    global:`
+            bg-white shadow-md p-5 rounded-3xl w-full
+            max-w-screen-sm flex flex-col gap-2
+            md:flex-row 
+            *:outline-none
+            has-[:invalid]:bg-red-100
+            `,
   },
-
+  
+  test: <div className=""/>
 };
 
 export default function Home() {
-  
   return ( 
         <main className={`${style["main"]}`}>
            {/* card box */}
           <div className={`${style["box"]["global"]}`}>
-           {/* top of card box */}
-            <div className={`${style["box"]["top"]}`}>
-              <div className={`${style["box"]["topTxtLayout"]}`}>
-                <span className={`${style["box"]["topTransit"]}`}>In transit</span>
-                <span className={`${style["box"]["topCoolBlue"]}`}>CoolBlue</span>
-              </div>
-              <div className={`${style["box"]["topCircle"]}`}/>
-            </div>
-            {/* middle of card box */}
-            <div className={`${style["box"]["middle"]}`}>
-              <span className={`${style["box"]["today"]}`}>
-                Today
-              </span>
-              <span className={`${style["box"]["time"]}`}>9:30-10:30</span>
-            </div>
-            {/* progress bar of card box */}
-            <div className={`${style["box"]["progressBar"]}`}>
-              <div className={`${style["box"]["whitePgrsBar"]}`}/>
-              <div className={`${style["box"]["greenPgrsBar"]}`}/>
-            </div>
-            {/* text widget of progress bar */}
-            <div className={`${style["box"]["textWidget"]}`}>
-              <span>Experted</span>
-              <span>Sorting center</span>
-              <span>In transit</span>
-              <span className={`${style["box"]["textDelivered"]}`}>Delivered</span>
-            </div>
+           <input className="w-full rounded-full h-12
+           bg-gray-200 px-5 focus:ring ring-gray-800 
+           duration-200 
+           placeholder:drop-shadow-sm
+           focus:placeholder:text-gray-700
+           invalid:placeholder:text-red-300
+           invalid:text-red-500
+           peer
+           "
+           placeholder="Search here..." 
+           type="email" 
+           required/>
+           <span className="hidden text-red-400 font-bold text-sm 
+           peer-invalid:block">incorrect</span>
+           <button className="bg-opacity-80 text-white py-2 
+           rounded-full active:scale-90 transition-transform
+           duration-100
+           font-medium bg-gradient-to-tr from-cyan-500 to-purple-400
+           md:px-10 md:py-1 
+           peer-invalid:bg-gradient-to-tr 
+           peer-invalid:from-cyan-500/50
+           peer-invalid:to-purple-400/40
+           ">Search</button>
           </div>
         </main>
   );
 }
+//
