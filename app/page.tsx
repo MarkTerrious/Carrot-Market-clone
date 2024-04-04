@@ -10,10 +10,7 @@ const style = {
   box:{
     global:`
             bg-white shadow-md p-5 rounded-3xl w-full
-            max-w-screen-sm flex flex-col gap-2
-            md:flex-row 
-            *:outline-none
-            has-[:invalid]:bg-red-100
+            max-w-screen-sm flex flex-col gap-2 
             `,
   },
   
@@ -25,29 +22,27 @@ export default function Home() {
         <main className={`${style["main"]}`}>
            {/* card box */}
           <div className={`${style["box"]["global"]}`}>
-           <input className="w-full rounded-full h-12
-           bg-gray-200 px-5 focus:ring ring-gray-800 
-           duration-200 
-           placeholder:drop-shadow-sm
-           focus:placeholder:text-gray-700
-           invalid:placeholder:text-red-300
-           invalid:text-red-500
-           peer
-           "
-           placeholder="Search here..." 
-           type="email" 
-           required/>
-           <span className="hidden text-red-400 font-bold text-sm 
-           peer-invalid:block">incorrect</span>
-           <button className="bg-opacity-80 text-white py-2 
-           rounded-full active:scale-90 transition-transform
-           duration-100
-           font-medium bg-gradient-to-tr from-cyan-500 to-purple-400
-           md:px-10 md:py-1 
-           peer-invalid:bg-gradient-to-tr 
-           peer-invalid:from-cyan-500/50
-           peer-invalid:to-purple-400/40
-           ">Search</button>
+            {["Nico", "Me", "You", "Yourself"].map((name, index) => (
+              <div key={index} className="
+              flex items-center gap-5
+              p-2.5 rounded-xl 
+              ">
+                <div className="size-10 bg-cyan-600 rounded-full"/>
+                <span className="text-lg font-medium 
+                ">{name}</span>
+                <div className="
+                  flex justify-center items-center
+                  size-6 bg-red-600 rounded-full
+                  text-white 
+                ">
+                  <span className="z-10">{index}</span>
+                  <div className="
+                  size-6 bg-red-600 rounded-full
+                  absolute animate-ping
+                  "/>
+                </div>
+              </div>
+            ))}
           </div>
         </main>
   );
