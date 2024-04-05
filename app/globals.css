@@ -12,7 +12,8 @@
 /* apply multiple form at once like classname="__macro_name__" */
 @layer components {
     .input {
-        @apply bg-gray-200 w-full invalid:bg-red-100
+        @apply bg-gray-200 w-full invalid:bg-red-100 
+        hover:ring hover:ring-offset-2 hover:ring-cyan-200
     }
 }
 

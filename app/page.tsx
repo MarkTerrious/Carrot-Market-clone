@@ -24,6 +24,7 @@ export default function Home() {
           <div className={`${style["box"]["global"]}`}>
             <div className="group flex flex-col *:rounded-full">
               <input placeholder="email address" type="email"
+              className="input"
               />
               <span
               className="group-focus-within:block hidden"
