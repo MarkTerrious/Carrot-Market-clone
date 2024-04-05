@@ -11,7 +11,6 @@ const config: Config = {
       scale: {
         "120": "1.20"
       },
-      
       keyframes: {
         wave: {
           '0%': { transform: 'rotate(0.0deg)' },
@@ -30,6 +29,8 @@ const config: Config = {
       },
     }
   },
-  plugins: [],
+  plugins: [
+    require("@tailwindcss/forms"),
+  ],
 };
 export default config;

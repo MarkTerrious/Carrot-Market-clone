@@ -22,27 +22,17 @@ export default function Home() {
         <main className={`${style["main"]}`}>
            {/* card box */}
           <div className={`${style["box"]["global"]}`}>
-            {["Nico", "Me", "You", "Yourself"].map((name, index) => (
-              <div key={index} className="
-              flex items-center gap-5
-              p-2.5 rounded-xl 
-              ">
-                <div className="size-10 bg-cyan-600 rounded-full"/>
-                <span className="text-lg font-medium 
-                ">{name}</span>
-                <div className="
-                  flex justify-center items-center
-                  size-6 bg-red-600 rounded-full
-                  text-white 
-                ">
-                  <span className="z-10">{index}</span>
-                  <div className="
-                  size-6 bg-red-600 rounded-full
-                  absolute animate-ping
-                  "/>
-                </div>
-              </div>
-            ))}
+            <div className="group flex flex-col *:rounded-full">
+              <input placeholder="email address" type="email"
+              />
+              <span
+              className="group-focus-within:block hidden"
+              >input your email address</span>
+              <button className="
+              group-invalid:bg-red-500 
+              ">submit</button>
+              <a href="#" className="text-bigger-hello">Link</a>
+            </div>
           </div>
         </main>
   );
