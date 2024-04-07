@@ -1,41 +1,28 @@
-const style = {
-  main: `
-          bg-gray-100 h-screen flex  
-          items-center justify-center p-5 dark:bg-gray-700
-          sm:bg-green-100  
-          md:bg-red-100
-          xl:bg-slate-200
-          2xl:bg-neutral-200
-          `,
-  box:{
-    global:`
-            bg-white shadow-md p-5 rounded-3xl w-full
-            max-w-screen-sm flex flex-col gap-2 
-            `,
-  },
-  
-  test: <div className=""/>
-};
+import Link from "next/link";
 
 export default function Home() {
-  return ( 
-        <main className={`${style["main"]}`}>
-           {/* card box */}
-          <div className={`${style["box"]["global"]}`}>
-            <div className="group flex flex-col *:rounded-full">
-              <input placeholder="email address" type="email"
-              className="input"
-              />
-              <span
-              className="group-focus-within:block hidden"
-              >input your email address</span>
-              <button className="
-              group-invalid:bg-red-500 
-              ">submit</button>
-              <a href="#" className="text-bigger-hello">Link</a>
-            </div>
-          </div>
-        </main>
+  return (
+    <div className="flex-col-center
+     justify-between min-h-screen p-6">
+      <div className="my-auto flex-col-center gap-2 *:font-medium">
+        <span className="text-9xl">🥕</span>
+        <h1 className="text-4xl ">당근</h1>
+        <h2 className="text-2xl">당근 마켓에 어서오세요!</h2>
+      </div>
+      <div className="flex-col-center gap-3 w-full">
+        <Link
+          href="/create-account"
+          className="primary-btn py-2.5 text-lg "
+        >
+          시작하기
+        </Link>
+        <div className="flex gap-2">
+          <span>이미 계정이 있나요?</span>
+          <Link href="/login" className="hover:underline hover:underline-offset-4">
+            로그인
+          </Link>
+        </div>
+      </div>
+    </div>
   );
 }
-//
