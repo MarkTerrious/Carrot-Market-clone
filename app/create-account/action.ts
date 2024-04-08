@@ -1,11 +1,7 @@
 "use server";
+import { PASSWORD_MIN_LENGTH, PASSWORD_REGEX, PASSWORD_REGEX_ERROR } from "@/lib/constant";
 import {z} from "zod";
 
-
-const passwordRegex = new RegExp(
-    /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).+$/
-);
-    
 function checkUsername(username: string) {
     return !username.includes("potato");
 }
@@ -31,8 +27,9 @@ const formSchema = z.object({
         .transform((username) => `＊${username}＊`)
         .refine(checkUsername , "potato는 허용되지 않는 값 입니다.!"),
     email: z.string().email().toLowerCase(),
-    password: z.string().min(4).regex(passwordRegex,
-        "lower_case, UPPER_CASE, a number and Special Characters!"
+    password: z.string().min(4).regex(
+        PASSWORD_REGEX,
+        PASSWORD_REGEX_ERROR
     ),
     confirm_password: z.string().min(4),
 }).refine(checkPassword, {
