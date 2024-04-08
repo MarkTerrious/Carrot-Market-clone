@@ -7,6 +7,14 @@
     a {
         @apply text-orange-500
     }
+    input::-webkit-outer-spin-button,
+    input::-webkit-inner-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+    }
+    input[type=number] {
+        -moz-appearance: textfield;
+    }
 }
 
 /* apply multiple form at once like classname="__macro_name__" */
