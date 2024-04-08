@@ -2,12 +2,12 @@ interface FormInputInterProps {
     type:string;
     placeholder:string;
     required:boolean;
-    errors: string[];
+    errors?: string[];
     name:string;
 }
 
 export default function FormInput({
-    type, placeholder, required, errors, name
+    type, placeholder, required, errors=[], name
 }:FormInputInterProps) {
     return (
         <div className="flex flex-col gap-2">

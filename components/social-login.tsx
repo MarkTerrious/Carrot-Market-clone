@@ -6,10 +6,10 @@ export default function SocialLogin() {
         <>
             <div className="w-full bg-neutral-500 h-px" />
             <div className="flex flex-col gap-2">
-                <Link href="/github/start" className="
-                    primary-btn 
-                    flex gap-3 h-10 
-                    items-center justify-center
+                <Link href="/github/start" 
+                    className="
+                        primary-btn flex gap-3 h-10 
+                        items-center justify-center
                 ">
                     <svg
                         className="size-6"
@@ -27,10 +27,10 @@ export default function SocialLogin() {
 
                     <span>Continue with Github</span>
                 </Link>
-                <Link href="/sms" className="
-                    primary-btn 
-                    flex gap-3 h-10 
-                    items-center justify-center
+                <Link href="/sms" 
+                    className="
+                        primary-btn flex gap-3 h-10 
+                        items-center justify-center
                 ">
                     <span>
                         <ChatBubbleOvalLeftIcon className="w-6 h-6"/>
