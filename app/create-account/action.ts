@@ -1,6 +1,13 @@
 "use server";
+
+import bcrypt from "bcrypt";
 import { PASSWORD_MIN_LENGTH, PASSWORD_REGEX, PASSWORD_REGEX_ERROR } from "@/lib/constant";
+import db from "@/lib/db";
 import {z} from "zod";
+import { getIronSession } from "iron-session";
+import { cookies } from "next/headers";
+import { redirect } from "next/navigation";
+import { getSession } from "@/lib/session";
 
 function checkUsername(username: string) {
     return !username.includes("potato");
@@ -24,18 +31,64 @@ const formSchema = z.object({
         .max(10, "10글자 이하이어야 합니다.")
         .trim()
         .toLowerCase()
-        .transform((username) => `＊${username}＊`)
+        // .transform((username) => `＊${username}＊`)
         .refine(checkUsername , "potato는 허용되지 않는 값 입니다.!"),
-    email: z.string().email().toLowerCase(),
-    password: z.string().min(4).regex(
+    email: 
+        z.string()
+        .email()
+        .toLowerCase(),
+        password: z.string().min(4).regex(
         PASSWORD_REGEX,
         PASSWORD_REGEX_ERROR
     ),
     confirm_password: z.string().min(4),
-}).refine(checkPassword, {
+})
+.superRefine(async ({username}, ctx) => {
+    const user = await db.user.findUnique({
+        where:{
+            username: username,
+        },
+        select: {
+            id: true,
+        }
+    });
+
+    if(user) {
+        ctx.addIssue({
+            code: "custom",
+            message: "This user name is already exist!",
+            path: ["username"],
+            fatal: true,
+        })
+    }
+
+    return z.NEVER;
+})
+.superRefine(async ({email}, ctx) => {
+    const user = await db.user.findUnique({
+        where:{
+            email: email
+        },
+        select: {
+            id: true,
+        }
+    });
+
+    if(user) {
+        ctx.addIssue({
+            code: "custom",
+            message: "This email is already exist!",
+            path: ["email"],
+            fatal: true,
+        })
+    }
+
+    return z.NEVER;
+})
+.refine(checkPassword, {
     message: "password is not equal",
     path: ["confirm_password"]
-});
+})
 
 export default async function createAccount(
     prevState:any, formData:FormData)
@@ -45,13 +98,32 @@ export default async function createAccount(
         email: formData.get("email"),
         password: formData.get("password"),
         confirm_password: formData.get("confirm_password"),
-
     }
-    const result = formSchema.safeParse(data);
+
+    const result = await formSchema.safeParseAsync(data);
+    
     if (!result.success) {
         console.log( result.error.flatten());
         return result.error.flatten();
     } else {
-        console.log("SUCCESS data >> ", result.data);
+        const hashedPassword = await bcrypt.hash(result.data.password, 12);
+        
+        const user = await db.user.create({
+            data: {
+                username: result.data.username,
+                email: result.data.email,
+                password: hashedPassword,
+            },
+            select: {
+                id: true
+            }
+        });
+
+        const session = await getSession();
+        session.id = user.id;
+        await session.save();
+        // console.log("SUCCESS >> ", user);
+
+        redirect("/profile");
     }
 }
