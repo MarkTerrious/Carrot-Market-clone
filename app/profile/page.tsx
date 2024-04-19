@@ -29,7 +29,6 @@ export default async function Profile() {
         redirect("/");
     }
 
-    console.log("Profile");
     return (
         <div>
             <h1>Welcome! {user?.username}</h1>

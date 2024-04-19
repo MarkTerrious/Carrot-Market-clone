@@ -22,7 +22,7 @@ export async function SMSLogin(prevState:ActionType, formData:FormData) {
     const phone = formData.get("phone");
     const token = formData.get("token");
     
-    // 처음 토큰을 가지고 있지 않다면...(condition 1)
+    // 처음 토큰을 가지고 있지 않다면 (condition 1)
     if (!prevState.token) {
         // phone 번호 검사.
         const result = phoneSchema.safeParse(phone);
@@ -42,6 +42,7 @@ export async function SMSLogin(prevState:ActionType, formData:FormData) {
     // -------condition 1 end-------
     } else {
         // if token === true (condition 2)
+        // 토큰이 유효한지 검사
         const result = tokenSchema.safeParse(token);
         if (!result.success) {
             return {

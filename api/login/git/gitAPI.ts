@@ -1,0 +1,66 @@
+import { notFound } from "next/navigation";
+import { NextRequest } from "next/server";
+
+export async function getGitUserData(request:NextRequest) {
+    // URL query 중 code 부문을 들고온다.
+    const code = request.nextUrl.searchParams.get("code");
+    if (!code) { 
+        return {
+            error: notFound()
+        }; 
+    }
+
+    // Git에서 AccessToken을 가져온다.
+    const accessTokenResponse = await fetchGitAccessToken(code);
+    if ("error" in accessTokenResponse) {
+        return {
+            error: new Response(null, {
+                status: 400,
+                statusText:"error"
+            })
+        }
+    }
+    
+    // Git에서 AccessToken으로 User 데이터를 얻어온다.
+    const gitUserData = {
+        data: await fetchGitUserData(accessTokenResponse)
+    };
+
+    return gitUserData;
+}
+
+async function fetchGitAccessToken(code:string) {
+    // GIT에 특정 값을 보낼 URL 파라매터 부문 작성
+    const accessTokenParams = new URLSearchParams({
+       client_id: process.env.GITHUB_CLIENT_ID_PUBLIC!,
+       client_secret: process.env.GITHUB_CLIENT_SECRET!,
+       code
+   }).toString();
+
+   // GIT API 주소에 위 URL파라매터를 붙인다.
+   const accessTokenURL = `
+       https://github.com/login/oauth/access_token?${accessTokenParams}
+   `;
+
+   // fetch로 POST/JSON 형식으로 GIT에 전송!
+   const accessTokenResponse = await (await fetch(accessTokenURL,{
+       method: "POST",
+       headers: {
+           Accept: "application/json"
+       }
+   })).json();
+
+   return accessTokenResponse;
+}
+
+async function fetchGitUserData(userToken:any) {
+    // 성공적으로 데이터를 받앗으면...
+    const gitUserData = await (await fetch("https://api.github.com/user", {
+       headers: {
+           Authorization: `${userToken.token_type} ${userToken.access_token}`
+       },
+       cache: "no-cache",
+   })).json();
+
+   return gitUserData;
+}

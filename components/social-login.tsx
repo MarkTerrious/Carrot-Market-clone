@@ -1,12 +1,12 @@
 import Link from "next/link";
 import { ChatBubbleOvalLeftIcon } from "@heroicons/react/24/solid";
 
-export default function SocialLogin() {
+export default function SocialLogin() {    
     return (
         <>
             <div className="w-full bg-neutral-500 h-px" />
             <div className="flex flex-col gap-2">
-                <Link href="/github/start" 
+                <Link href={`github/start`} 
                     className="
                         primary-btn flex gap-3 h-10 
                         items-center justify-center
