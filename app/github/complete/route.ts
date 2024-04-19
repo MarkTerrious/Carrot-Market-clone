@@ -8,8 +8,8 @@ import { NextRequest } from "next/server";
 export async function GET(request: NextRequest) 
 {
     // Git에서 데이터를 받아온다.
-    const [gitUserInfo, gitUserEmail] = await getGitUserData(request);
-    if ("error" in gitUserInfo) { return gitUserInfo.error; }
+    const {gitUserInfo, gitUserEmail, error} = await getGitUserData(request);
+    if ("error" in gitUserInfo) { return error; }
     
     // DB에 User가 등록되어 있는지 확인한다.
     const user = await checkGitUserExist(gitUserInfo);

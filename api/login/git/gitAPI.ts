@@ -1,6 +1,7 @@
 import { NextRequest } from "next/server";
 
-async function fetchGitAccessToken(code:string) {
+async function fetchGitAccessToken(code:string) 
+{
     // GIT에 특정 값을 보낼 URL 파라매터 부문 작성
     const accessTokenParams = new URLSearchParams({
        client_id: process.env.GITHUB_CLIENT_ID_PUBLIC!,
@@ -28,6 +29,7 @@ export async function getGitUserData(request:NextRequest)
 { 
     // Git에서 AccessToken을 가져온다.  
     const accessTokenResponse = await getGitAccessToken(request); 
+    if ("error" in accessTokenResponse)  return accessTokenResponse;
 
     // Git에서 AccessToken으로 User 데이터를 얻어온다.
     const [gitUserInfo, gitUserEmail] = await Promise.all([
@@ -35,7 +37,10 @@ export async function getGitUserData(request:NextRequest)
         getGitUserEmail(accessTokenResponse)
     ])
 
-    return [gitUserInfo, gitUserEmail];
+    return {
+        gitUserInfo: gitUserInfo, 
+        gitUserEmail: gitUserEmail
+    };
 }
 
 export async function getGitAccessToken(request: NextRequest) 
@@ -57,7 +62,6 @@ export async function getGitAccessToken(request: NextRequest)
 
 export async function getGitUserInfo(userToken:any) 
 {
-    // 성공적으로 데이터를 받앗으면...
     const gitUserData = await (await fetch("https://api.github.com/user", {
        headers: {
             Authorization: `${userToken.token_type} ${userToken.access_token}`
