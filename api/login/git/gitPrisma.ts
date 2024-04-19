@@ -1,12 +1,15 @@
 import db from "@/lib/db";
 
-export async function createGitData({id, login, avatar_url}:gitUserData) 
-{
+export async function createGitData(
+    {id, login, avatar_url}:gitUserData,
+    {email}:{email:string}
+) {
     const newUserData = await db.user.create({
         data: {
             username: login + `#Git-${id}`,
             github_id: id.toString(),
-            avatar: avatar_url
+            avatar: avatar_url,
+            email
         },
         select: {
             id: true,

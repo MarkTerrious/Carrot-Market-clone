@@ -3,8 +3,8 @@
 import bcrypt from "bcrypt";
 import db from "@/lib/db";
 import { formSchema } from "./account_validation";
-import { saveSessionData } from "@/api/session";
 import { SafeParseSuccess } from "zod";
+import { saveSessionData } from "@/api/session";
 
 export default async function createAccount(prevState:any, formData:FormData)
 {
@@ -22,7 +22,6 @@ export default async function createAccount(prevState:any, formData:FormData)
         return result.error.flatten();
     } else {
         const user = await createUserWithPassword(result);
-        console.log("user >> ", user);
         await saveSessionData({ id: user.id, rUrl: "/profile" });
     }
 }

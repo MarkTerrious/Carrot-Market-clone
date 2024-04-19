@@ -1,33 +1,4 @@
-import { notFound } from "next/navigation";
 import { NextRequest } from "next/server";
-
-export async function getGitUserData(request:NextRequest) {
-    // URL query 중 code 부문을 들고온다.
-    const code = request.nextUrl.searchParams.get("code");
-    if (!code) { 
-        return {
-            error: notFound()
-        }; 
-    }
-
-    // Git에서 AccessToken을 가져온다.
-    const accessTokenResponse = await fetchGitAccessToken(code);
-    if ("error" in accessTokenResponse) {
-        return {
-            error: new Response(null, {
-                status: 400,
-                statusText:"error"
-            })
-        }
-    }
-    
-    // Git에서 AccessToken으로 User 데이터를 얻어온다.
-    const gitUserData = {
-        data: await fetchGitUserData(accessTokenResponse)
-    };
-
-    return gitUserData;
-}
 
 async function fetchGitAccessToken(code:string) {
     // GIT에 특정 값을 보낼 URL 파라매터 부문 작성
@@ -53,14 +24,68 @@ async function fetchGitAccessToken(code:string) {
    return accessTokenResponse;
 }
 
-async function fetchGitUserData(userToken:any) {
+export async function getGitUserData(request:NextRequest) 
+{ 
+    // Git에서 AccessToken을 가져온다.  
+    const accessTokenResponse = await getGitAccessToken(request); 
+
+    // Git에서 AccessToken으로 User 데이터를 얻어온다.
+    const [gitUserInfo, gitUserEmail] = await Promise.all([
+        getGitUserInfo(accessTokenResponse),
+        getGitUserEmail(accessTokenResponse)
+    ])
+
+    return [gitUserInfo, gitUserEmail];
+}
+
+export async function getGitAccessToken(request: NextRequest) 
+{
+    // URL query 중 code 부문을 들고온다.
+    const code = request.nextUrl.searchParams.get("code");
+    if (!code) { 
+        return makeGitError();
+    }
+
+    // Git에서 AccessToken을 가져온다.
+    const accessTokenResponse = await fetchGitAccessToken(code);
+    if ("error" in accessTokenResponse) {
+        return makeGitError();
+    }
+
+    return accessTokenResponse;
+}
+
+export async function getGitUserInfo(userToken:any) 
+{
     // 성공적으로 데이터를 받앗으면...
     const gitUserData = await (await fetch("https://api.github.com/user", {
        headers: {
-           Authorization: `${userToken.token_type} ${userToken.access_token}`
+            Authorization: `${userToken.token_type} ${userToken.access_token}`
        },
        cache: "no-cache",
    })).json();
 
    return gitUserData;
+}
+
+export async function getGitUserEmail(userToken:any) 
+{
+    const gitUserEmail = await (await fetch("https://api.github.com/user/emails", {
+        headers: {
+            Authorization: `${userToken.token_type} ${userToken.access_token}`
+        },
+        cache: "no-cache"
+    })).json();
+
+    return gitUserEmail;
+}
+
+function makeGitError() 
+{
+    return {
+        error: new Response(null, {
+            status: 400,
+            statusText:"error"
+        })
+    }
 }

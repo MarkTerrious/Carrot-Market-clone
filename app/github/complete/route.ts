@@ -8,16 +8,16 @@ import { NextRequest } from "next/server";
 export async function GET(request: NextRequest) 
 {
     // Git에서 데이터를 받아온다.
-    const gitUserData = await getGitUserData(request);
-    if ("error" in gitUserData) { return gitUserData.error; }
+    const [gitUserInfo, gitUserEmail] = await getGitUserData(request);
+    if ("error" in gitUserInfo) { return gitUserInfo.error; }
     
     // DB에 User가 등록되어 있는지 확인한다.
-    const user = await checkGitUserExist(gitUserData.data);
+    const user = await checkGitUserExist(gitUserInfo);
     let userID: number | null = null;
 
     if (!user) {
         // Database에 유저가 존재하지 않으면 등록 후 세션 ID를 받는다.
-        userID = (await createGitData(gitUserData.data)).id;
+        userID = (await createGitData(gitUserInfo, gitUserEmail[0])).id;
     } else {
         // Database에서 유저가 존재하면 DB의 ID를 세션에 저장.
         userID = user.id;

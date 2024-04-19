@@ -9,7 +9,7 @@ interface PasswordValidation {
 
 function checkUsername(username: string) 
 {
-    return !username.includes("potato");
+    return !username.includes("#");
 }
 
 function checkPassword({password, confirm_password}:PasswordValidation) 
@@ -27,7 +27,7 @@ export const formSchema = z.object({
         .trim()
         .toLowerCase()
         // .transform((username) => `＊${username}＊`)
-        .refine(checkUsername , "potato는 허용되지 않는 값 입니다.!"),
+        .refine(checkUsername , "#은 허용되지 않는 값 입니다.!"),
     email: 
         z.string()
         .email()
@@ -73,7 +73,7 @@ async function validate_email({email}: ValidateUser, ctx: z.RefinementCtx)
     if (user) {
         ctx.addIssue({
             code: "custom",
-            message: "This user name is already exist!",
+            message: "This email is already exist!",
             path: ["email"],
             fatal: true,
         })
