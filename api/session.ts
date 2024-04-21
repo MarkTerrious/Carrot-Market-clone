@@ -3,7 +3,7 @@ import { redirect } from "next/navigation";
 
 interface sessionData {
     id: number,
-    rUrl: string,   // relative
+    rUrl?: string | undefined | null,   // relative
 }
 
 export async function saveSessionData({id, rUrl}:sessionData) 

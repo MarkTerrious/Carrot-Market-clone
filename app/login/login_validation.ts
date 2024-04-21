@@ -21,10 +21,12 @@ export const schema = z.object({
         .toLowerCase()
         .email("should be email")
         .refine(retrieveEmail, "This email doesn't exist!"),
-    password: z.string({
-        required_error: "Password is required"
-    }).min(4, "should be above 4 characters").regex(
-        PASSWORD_REGEX,
-        PASSWORD_REGEX_ERROR
-    )
+    password: 
+        z.string({
+            required_error: "Password is required"
+        })
+        .min(4, "should be above 4 characters").regex(
+            PASSWORD_REGEX,
+            PASSWORD_REGEX_ERROR
+        )
 });

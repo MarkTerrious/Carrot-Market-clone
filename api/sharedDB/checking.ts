@@ -1,5 +1,5 @@
 import db from "@/lib/db";
-import { UserSearch } from "./types";
+import { CheckTokenProperty, UserSearch } from "./types";
 import { RequireOnlyone } from "../../lib/types";
 
 /**
