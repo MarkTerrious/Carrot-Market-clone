@@ -19,6 +19,7 @@ export default function ProductsPage({initialProducts}:ProductsListProps)
     const trigger = useRef<HTMLSpanElement>(null);
 
     useEffect(() => {
+        
         const observer =  new IntersectionObserver(
             async(
                 entries: IntersectionObserverEntry[], 
@@ -31,11 +32,13 @@ export default function ProductsPage({initialProducts}:ProductsListProps)
                     setIsLoading(true);
                     const newProducts = await getProducts(page + 1);
                     
-                    if (newProducts.length !== 0) {
-                        setProducts((prev) => [...prev, ...newProducts])
-                        setPage((prev) => prev + 1);
-                    } else {
-                        setIsLast(true);
+                    if (newProducts){
+                        if (newProducts.length !== 0) {
+                            setProducts((prev) => [...prev, ...newProducts])
+                            setPage((prev) => prev + 1);
+                        } else {
+                            setIsLast(true);
+                        }
                     }
                     setIsLoading(false);
                 }

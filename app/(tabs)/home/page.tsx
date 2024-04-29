@@ -1,6 +1,5 @@
-import db from "@/lib/db";
 import { Prisma } from "@prisma/client";
-import ProductsPage from "./products";
+import ProductsList from "./productList";
 import { getProducts } from "./action";
 import Link from "next/link";
 import { PlusIcon } from "@heroicons/react/24/solid";
@@ -14,7 +13,7 @@ export default async function Products()
     
     return (
         <div>
-            <ProductsPage initialProducts={products} />
+            <ProductsList initialProducts={products} />
             <Link 
                 href={"/products/add"}
                 className="bg-orange-500 flex items-center justify-center rounded-full size-16 
