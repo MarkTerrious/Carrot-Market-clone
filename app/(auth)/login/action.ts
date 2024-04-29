@@ -4,7 +4,7 @@ import bcrypt from "bcrypt";
 import db from "@/lib/db";
 import { schema } from "./login_validation";
 import { SafeParseSuccess } from "zod";
-import { AllUserProperty } from "@/api/sharedDB/types";
+import { UserInterface } from "@/api/sharedDB/types";
 import { RequireAtLeastone } from "@/lib/types";
 import { saveSessionData } from "@/api/session";
 
@@ -50,7 +50,7 @@ async function handleForm(prevState:any, formData:FormData) {
 
 
 async function fetchUserIdPwd(result : 
-    SafeParseSuccess<RequireAtLeastone<AllUserProperty>>) 
+    SafeParseSuccess<RequireAtLeastone<UserInterface>>) 
 {
     const user = await db.user.findUnique({
         where: {

@@ -31,7 +31,7 @@ export default function SMSLoginPage() {
                     min={100000}
                     max={999999}
                     errors={state.error?.formErrors}
-                    btnHidden={`${state?.token ? "number" : "hidden"}`}
+                    errorHidden={`${state?.token ? "number" : "hidden"}`}
                 />
                 <Input 
                     name="phone"
@@ -39,7 +39,7 @@ export default function SMSLoginPage() {
                     placeholder="Phone number"
                     required={true}
                     errors={state.error?.formErrors}
-                    btnHidden={`${state?.token ? "hidden" : "text"}`}
+                    errorHidden={`${state?.token ? "hidden" : "text"}`}
                 />
                 <Button 
                     text={state.token 

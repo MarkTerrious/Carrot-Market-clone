@@ -19,9 +19,6 @@ const phoneSchema = z.string().trim().refine((phone) =>
 const tokenSchema = z.coerce.number()
     .min(100000)
     .max(999999)
-    .refine(getUserIdWithToken, {
-        message:"This token does not exist ! it may be expired or wrong number. ",
-    })
 
 async function getToken() 
 {
