@@ -1,4 +1,3 @@
-
 import { notFound } from "next/navigation";
 import { deleteProduct, getIsOwner, getProduct } from "./action";
 import ProductDetailHTML from "./productDetailHTML";
@@ -8,8 +7,10 @@ import { getSession } from "@/lib/session";
 // products -> products/id
 export default async function ProductDetail({
     params,
+    modal=false
 } : { 
     params: { id: string } 
+    modal: boolean
 }) {
     // check whether the id is number or not.
     const id = Number(params.id);
@@ -30,8 +31,10 @@ export default async function ProductDetail({
 
     return (
         <ProductDetailHTML 
-            isOwner={isOwner} 
             product={product}
-            testFunc={testFunc}/>
+            isOwner={isOwner} 
+            testFunc={testFunc}
+            modal={modal}
+        />
     )
 }

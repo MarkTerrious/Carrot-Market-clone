@@ -16,10 +16,12 @@ interface ProductDetailProps {
     } & ProductInterface,
     isOwner: boolean,
     testFunc: any,
+    modal: boolean
 }
 
 export default function ProductDetailHTML(
-    {product, isOwner, testFunc} : ProductDetailProps
+    { product, isOwner, testFunc, modal=false } : ProductDetailProps,
+
 ) {
     const [state, action] = useFormState(testFunc, null);
 
@@ -60,6 +62,8 @@ export default function ProductDetailHTML(
             </div>
 
             {/* Bottom : Price, Delete, Chat */}
+            {
+            !modal ?
             <div className="fixed w-full bottom-0 left-0 p-5 pb-10 bg-neutral-800 flex justify-between items-center">
                 {/* Price */}
                 <span className="font-semibold text-xl">
@@ -85,6 +89,8 @@ export default function ProductDetailHTML(
                     채팅하기    
                 </Link>
             </div>
+            : null
+            }
         </div>
     )
 }
