@@ -1,13 +1,10 @@
 "use server";
  
-import db from "@/lib/db";
 import fs from "fs/promises";
 import { getSession } from "@/lib/session";
-import { writeFile } from "fs/promises";
 import { redirect } from "next/navigation";
-import path from "path";
-import { SafeParseSuccess, z } from "zod";
-import { UploadType, uploadSchema } from "./schema";
+import { productSchema } from "../schema";
+import { createProduct } from "@/api/products/productsAPI";
 
 export default async function uploadProduct(_: any, formData: FormData)
 {
@@ -22,8 +19,9 @@ export default async function uploadProduct(_: any, formData: FormData)
         console.log("Photo >> ", data.photo);
         return;
     }
+    
     // Validate Upload Data
-    const result = await uploadSchema.spa(data);
+    const result = await productSchema.spa(data);
     if (!result.success) {
         return result.error.flatten()
     } 
@@ -37,13 +35,15 @@ export default async function uploadProduct(_: any, formData: FormData)
     const session = await getSession();
     if (session.id) {
         const product = await createProduct(session.id, result);
-        redirect(`/products/${product.id}`);
+        redirect(`/product/${product.id}`);
     }
     
 }
 
 
-async function saveFile(file: File)
+
+/*
+ async function saveFile(file: File)
 {
     const buffer = Buffer.from(await file.arrayBuffer());
     try {
@@ -57,35 +57,4 @@ async function saveFile(file: File)
         return false;
     }
 }
-
-async function createProduct(
-    userId: number, result: SafeParseSuccess<UploadType>)
-{
-    const product = await db.product.create({
-        data: {
-            userId: userId,
-            title: result.data.title,
-            price: result.data.price,
-            description: result.data.description,
-            photo: "/" + result.data.photo!.name,
-        },
-        select: {
-            id: true
-        }
-    });
-
-    return product;
-}
-
-
-
- /*
-    try {
-        await writeFile(
-            path.join(process.cwd(), "/public/" + file.name), 
-            buffer
-        )
-    } catch ( err ) {
-        console.log("err >> ", err);
-    }
-    */
+ */

@@ -31,7 +31,7 @@ export async function middleware(request: NextRequest) {
         // if we are logged in, we cannot create acc
         if (authURLPath) {
             return NextResponse.redirect(new URL(
-                "/products", request.url
+                "/home", request.url
             ));
         }
     }
@@ -42,3 +42,9 @@ export const config = {
         '/((?!_next/static|_next/image|favicon.ico).*)',
     ]
 }
+
+/**
+ *  import { headers } from "next/headers";
+    const heads = headers();
+    const pathname = heads.get("next-url");
+ */

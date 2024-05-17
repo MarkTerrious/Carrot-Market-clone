@@ -3,9 +3,12 @@ import { useFormStatus } from "react-dom";
 
 interface ButtonInterface {
     text: string;
+    style?: string | null
 }
 
-export default function Button({text}:ButtonInterface) {
+export default function Button(
+    { text, style = null}: ButtonInterface,
+) {
     /*
         useFromStatus()
         1. 자동으로 자기자신의 부모 form을 찾을 것이다.
@@ -17,12 +20,13 @@ export default function Button({text}:ButtonInterface) {
         <button
             type="submit"
             disabled={pending} 
-            className="
+            className={`
                 primary-btn h-10
                 disabled:bg-neutral-500
                 disabled:text-neutral-400
                 disabled:cursor-not-allowed
-            "
+                ${style}
+            `}
         >
             {pending ? "서버와 대화중.." : text}
         </button>

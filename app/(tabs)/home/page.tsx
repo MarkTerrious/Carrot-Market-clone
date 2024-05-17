@@ -1,15 +1,20 @@
 import { Prisma } from "@prisma/client";
 import ProductsList from "./productList";
-import { getProducts } from "./action";
 import Link from "next/link";
 import { PlusIcon } from "@heroicons/react/24/solid";
+import { getProducts } from "@/api/products/productsAPI";
+import { getCachedProducts } from "@/api/products/cachedAPI";
 
 export type InitialProducts = Prisma.PromiseReturnType<typeof getProducts>;
+export const metadata = {
+    title: "Home",
+  };
 
 export default async function Products() 
 {
     // Load All Products data from db
-    const products = await getProducts();
+    // const products = await getProducts();
+    const products = await getCachedProducts();
     
     return (
         <div>

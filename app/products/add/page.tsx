@@ -3,11 +3,8 @@
 import Button from "@/components/button";
 import Input from "@/components/input";
 import { PhotoIcon } from "@heroicons/react/24/solid";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useState } from "react";
 import uploadProduct from "./action";
-import { useForm } from "react-hook-form";
-import { UploadType, uploadSchema } from "./schema";
-import { zodResolver } from "@hookform/resolvers/zod";
 import { useFormState } from "react-dom";
 
 export default function AddProduct() {
@@ -16,13 +13,16 @@ export default function AddProduct() {
         async (event:React.ChangeEvent<HTMLInputElement>) => 
     {
         const { target: { files } } = event;
-
         if(!files) return;
-
         const file = files[0];
+        
+        if(preview){
+            URL.revokeObjectURL(preview);
+        }
+        
         const url = URL.createObjectURL(file);
         setPreview(url);
-    },[]);
+    }, []);
     
     /**
      * register : state value
@@ -31,7 +31,7 @@ export default function AddProduct() {
             return { isValid, isValidating, isSubmitted, isSubmitting, isSubmitSuccessful, errors...}
      * 
      */
-    const [state, action] = useFormState(uploadProduct,null);
+    const [state, action] = useFormState(uploadProduct, null);
 
     return (
     <div>
