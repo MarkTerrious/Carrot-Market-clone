@@ -1,7 +1,4 @@
-import { notFound } from "next/navigation";
-import ProductDetailHTML from "./productDetailHTML";
-import { getSession } from "@/lib/session";
-import { deleteProduct, getIsOwner, getProduct } from "@/api/products/productsAPI";
+import {  getProduct } from "@/api/products/productsAPI";
 import { ProductDetail } from "./productServer";
 
 

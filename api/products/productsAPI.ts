@@ -7,6 +7,7 @@ import { redirect } from "next/navigation";
 import { SafeParseSuccess } from "zod";
 import { ProductType } from "@/app/products/schema";
 import { productRevalidate } from "./updateCache";
+import { Product } from "@prisma/client";
 
 // GET
 export async function getProducts(page:number = 0)
@@ -127,3 +128,26 @@ export async function getIsOwner(id: number)
     return false;
 }
 
+// CREATE CHAT ROOM
+export async function createChatRoom(product: Product)
+{
+    const session = await getSession();
+    const room = await db.chatRoom.create({
+      data: {
+        users: {
+          connect: [
+            {
+              id: product.userId,
+            },
+            {
+              id: session.id,
+            },
+          ],
+        },
+      },
+      select: {
+        id: true,
+      },
+    });
+    redirect(`/chats/${room.id}`);
+}

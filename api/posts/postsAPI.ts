@@ -88,3 +88,26 @@ export async function getLikeStatus(postId: number, userId: number)
         isLiked: Boolean(result[1])
     };
 }
+
+export async function getPostComment(postId: number) 
+{
+    const comments = db.comment.findMany({
+        where: {
+            postId
+        },
+        select: {
+            id: true,
+            postId: true,
+            payload: true,
+            created_at: true,
+            user: {
+                select: {
+                    username: true,
+                    avatar: true,
+                },
+            }
+        }
+    })
+
+    return comments;
+}

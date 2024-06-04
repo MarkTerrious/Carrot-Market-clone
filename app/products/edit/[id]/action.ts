@@ -2,7 +2,7 @@
 
 import fs from "fs";
 import { getSession } from "@/lib/session";
-import { createProduct, updateProduct } from "@/api/products/productsAPI";
+import { updateProduct } from "@/api/products/productsAPI";
 import { redirect } from "next/navigation";
 import { productSchema } from "../../schema";
 

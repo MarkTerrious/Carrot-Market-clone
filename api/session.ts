@@ -14,3 +14,5 @@ export async function saveSessionData({id, rUrl}:sessionData)
 
     if(rUrl) redirect(rUrl);    
 }
+
+export type SESSION_ID_TYPE = number;

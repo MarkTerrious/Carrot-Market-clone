@@ -39,6 +39,7 @@ export default function ProductList({initialProducts}:ProductsListProps)
                 entries: IntersectionObserverEntry[], 
                 observer: IntersectionObserver
             ) => {
+                // 등록된 관찰 객체1 (여기선 하나 밖에 없으나 여러개 등록가능.)
                 const element = entries[0];
                 // isIntersecting --> 관찰 객체가 UI에 보이는가 
                 if (element.isIntersecting && trigger.current) {

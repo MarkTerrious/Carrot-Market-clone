@@ -11,6 +11,9 @@ const config: Config = {
       scale: {
         "120": "1.20"
       },
+      flexGrow: {
+        "2":"2"
+      },
       keyframes: {
         wave: {
           '0%': { transform: 'rotate(0.0deg)' },

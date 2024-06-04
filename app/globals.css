@@ -15,6 +15,7 @@
     input[type=number] {
         -moz-appearance: textfield;
     }
+
 }
 
 /* apply multiple form at once like classname="__macro_name__" */

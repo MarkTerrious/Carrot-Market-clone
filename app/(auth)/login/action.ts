@@ -5,8 +5,8 @@ import db from "@/lib/db";
 import { schema } from "./login_validation";
 import { SafeParseSuccess } from "zod";
 import { UserInterface } from "@/api/sharedDB/types";
-import { RequireAtLeastone } from "@/lib/types";
 import { saveSessionData } from "@/api/session";
+import { RequireAtLeastone } from "@/api/type";
 
 async function handleForm(prevState:any, formData:FormData) {
     const data = {

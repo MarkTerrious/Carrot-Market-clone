@@ -7,6 +7,7 @@ import { useFormState } from "react-dom";
 import { formatToWon } from "@/lib/utils";
 import { ProductInterface, UserInterface } from "@/api/sharedDB/types";
 import { PencilIcon } from "@heroicons/react/24/outline";
+import { createChatRoom } from "@/api/products/productsAPI";
 
 interface ProductDetailProps {
     product: {
@@ -98,12 +99,11 @@ export default function ProductDetailHTML(
                 ) : null }
 
                 {/* Chat */}
-                <Link
-                    href={``} 
-                    className="bg-orange-500 px-5 py-2.5 rounded-md text-white font-semibold"
-                >
-                    채팅하기    
-                </Link>
+                <form action={()=>createChatRoom(product)}>
+                    <button className="bg-orange-500 px-5 py-2.5 rounded-md text-white font-semibold">
+                        채팅하기
+                    </button>
+                </form>
             </div>
             : null
             }

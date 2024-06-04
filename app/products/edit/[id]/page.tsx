@@ -29,4 +29,4 @@ export default async function Edit({
     )
 }
 
-type test = PromiseReturnType<typeof getProduct>
+// type test = PromiseReturnType<typeof getProduct>
