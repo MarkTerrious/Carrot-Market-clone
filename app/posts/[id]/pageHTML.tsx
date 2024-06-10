@@ -7,11 +7,8 @@ import { EyeIcon } from "@heroicons/react/24/solid";
 import { DbPostCommentType, DbPostType } from "@/api/posts/cachedAPI";
 import Comment from "@/components/comments/comment";
 import {  useRef } from "react";
-import { User } from "@prisma/client";
 import { addComment } from "./action";
 import { PostUserInfo } from "./page";
-import { revalidateTag } from "next/cache";
-import { revalidate_posts_whole } from "@/api/posts/revalidation";
 
 // Partial<User> | null | undefined,
 interface PostDetailHTMLProps {
@@ -26,7 +23,6 @@ interface PostDetailHTMLProps {
 export default function PostDetailHTML(
     { userProfile, postId, likeCount, isLiked, post, comments } : PostDetailHTMLProps 
 ) {    
-    if (!post) { return }
     const commentRef = useRef<HTMLInputElement>(null);
     const onEnrollComment = async (formData: FormData) => {
         const comment = formData.get("comment") as string;
@@ -42,6 +38,7 @@ export default function PostDetailHTML(
             }
         }
     }
+    if (!post) { return }
   
     return (
         <div className="p-5 text-white">
