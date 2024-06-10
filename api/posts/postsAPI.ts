@@ -9,7 +9,10 @@ postId가 없으면 에러 발생시킨다.
 */
 
 "use server";
+
 import db from "@/lib/db";
+import { revalidateTag } from "next/cache";
+import { revalidate_posts_whole } from "./revalidation";
 
 export async function getPost(postId: number)
 {
@@ -83,6 +86,7 @@ export async function getLikeStatus(postId: number, userId: number)
     
     const result = await Promise.all([likeCount, likeStatus]);
     
+    revalidateTag(revalidate_posts_whole());
     return {
         likeCount: result[0],
         isLiked: Boolean(result[1])

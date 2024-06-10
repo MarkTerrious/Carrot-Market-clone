@@ -10,6 +10,8 @@ import {  useRef } from "react";
 import { User } from "@prisma/client";
 import { addComment } from "./action";
 import { PostUserInfo } from "./page";
+import { revalidateTag } from "next/cache";
+import { revalidate_posts_whole } from "@/api/posts/revalidation";
 
 // Partial<User> | null | undefined,
 interface PostDetailHTMLProps {
@@ -29,14 +31,16 @@ export default function PostDetailHTML(
     const onEnrollComment = async (formData: FormData) => {
         const comment = formData.get("comment") as string;
 
-        if (comment !== "" || comment !== undefined)
+        if (comment !== "" || comment !== undefined) {
             await addComment({
                 userId: userProfile!.id!,
                 postId: postId,
                 comment: comment,
             })
-            if ( commentRef.current)
+            if ( commentRef.current) {
                 commentRef.current.value = ""
+            }
+        }
     }
   
     return (

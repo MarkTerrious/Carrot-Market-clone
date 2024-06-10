@@ -10,3 +10,6 @@ export const revalidate_like_stat = (postId:number) => {
     return `revalidate-like-status-${postId}`
 };
 
+export const revalidate_posts_whole = () => {
+    return `revalidate-posts-whole`
+}

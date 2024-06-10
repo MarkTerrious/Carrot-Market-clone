@@ -1,8 +1,8 @@
 "use server";
 
-import { unstable_cache } from "next/cache";
-import { getLikeStatus, getPost, getPostComment } from "./postsAPI";
-import { revalidate_like_stat, revalidate_post, revalidate_post_comment } from "./revalidation";
+import { revalidateTag, unstable_cache } from "next/cache";
+import { getLikeStatus, getPost, getPostComment, getPosts } from "./postsAPI";
+import { revalidate_like_stat, revalidate_post, revalidate_post_comment, revalidate_posts_whole } from "./revalidation";
 import { Prisma } from "@prisma/client";
 
 export async function cachedGetPost(postId: number) 
@@ -13,6 +13,16 @@ export async function cachedGetPost(postId: number)
     });
 
     return cachedPost(postId);
+}
+
+export async function cachedGetPosts() 
+{
+    const cachedPosts = unstable_cache(getPosts, ["CACHED_GET_POSTS"], {
+        tags: ["CACHED_GET_POSTS", revalidate_posts_whole()],
+        revalidate: 60,
+    })
+
+    return cachedPosts();
 }
 
 export async function cachedGetPostComment(postId: number) 

@@ -1,10 +1,8 @@
 "use server";
 
-import { revalidate_like_stat, revalidate_post_comment } from "@/api/posts/revalidation";
+import { revalidate_like_stat, revalidate_post_comment, revalidate_posts_whole } from "@/api/posts/revalidation";
 import db from "@/lib/db";
-import { getSession } from "@/lib/session";
-import { revalidateTag, unstable_cache } from "next/cache";
-import { number } from "zod";
+import { revalidateTag } from "next/cache";
 
 export async function likePost(postId:number, userId:number)
 {
@@ -55,5 +53,6 @@ export async function addComment({postId, userId, comment} :
     });
 
     revalidateTag(revalidate_post_comment(postId));
+    revalidateTag(revalidate_posts_whole());
     return result;
 }
