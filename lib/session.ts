@@ -10,7 +10,7 @@ export function getSession() {
     // 쿠키 설정 안해도 전달 됨.
     // 쿠키 안에 delicious-karrot 을 찾고
     // password에 쿠키 패스워드 저장.
-    return getIronSession<SessionContent>(cookies(), {
+    return getIronSession<SessionContent>(cookies() as any, {
         cookieName:"delicious-karrot",          
         password:process.env.COOKIE_PASSWORD!,
     });
